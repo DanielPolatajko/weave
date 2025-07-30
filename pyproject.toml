@@ -168,6 +168,7 @@ bedrock = ["boto3", "moto[bedrock]>=5.0.24"]
 verdict = ["verdict>=0.2.3"]
 autogen = ["autogen-agentchat>=0.5.7"]
 autogen_tests = ["autogen-agentchat>=0.5.7", "autogen-ext[openai]>=0.5.7"]
+inspect = ["inspect_ai"]
 
 test = [
   "nox",

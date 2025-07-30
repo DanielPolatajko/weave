@@ -46,6 +46,7 @@ class AutopatchSettings(BaseModel):
     google_genai_sdk: IntegrationSettings = Field(default_factory=IntegrationSettings)
     groq: IntegrationSettings = Field(default_factory=IntegrationSettings)
     huggingface: IntegrationSettings = Field(default_factory=IntegrationSettings)
+    inspect: IntegrationSettings = Field(default_factory=IntegrationSettings)
     instructor: IntegrationSettings = Field(default_factory=IntegrationSettings)
     litellm: IntegrationSettings = Field(default_factory=IntegrationSettings)
     mistral: IntegrationSettings = Field(default_factory=IntegrationSettings)
@@ -83,6 +84,7 @@ def autopatch(settings: Optional[AutopatchSettings] = None) -> None:
     from weave.integrations.huggingface.huggingface_inference_client_sdk import (
         get_huggingface_patcher,
     )
+    from weave.integrations.inspect import get_inspect_patcher
     from weave.integrations.instructor.instructor_sdk import get_instructor_patcher
     from weave.integrations.langchain.langchain import langchain_patcher
     from weave.integrations.langchain_nvidia_ai_endpoints.langchain_nv_ai_endpoints import (
@@ -120,7 +122,7 @@ def autopatch(settings: Optional[AutopatchSettings] = None) -> None:
     get_smolagents_patcher(settings.smolagents).attempt_patch()
     get_openai_agents_patcher(settings.openai_agents).attempt_patch()
     get_verdict_patcher(settings.verdict).attempt_patch()
-
+    get_inspect_patcher(settings.inspect).attempt_patch()
     langchain_patcher.attempt_patch()
     llamaindex_patcher.attempt_patch()
     get_autogen_patcher(settings.autogen).attempt_patch()
@@ -144,6 +146,7 @@ def reset_autopatch() -> None:
         get_huggingface_patcher,
     )
     from weave.integrations.instructor.instructor_sdk import get_instructor_patcher
+    from weave.integrations.inspect import get_inspect_patcher
     from weave.integrations.langchain.langchain import langchain_patcher
     from weave.integrations.langchain_nvidia_ai_endpoints.langchain_nv_ai_endpoints import (
         get_nvidia_ai_patcher,
@@ -180,7 +183,7 @@ def reset_autopatch() -> None:
     get_smolagents_patcher().undo_patch()
     get_openai_agents_patcher().undo_patch()
     get_verdict_patcher().undo_patch()
-
+    get_inspect_patcher().undo_patch()
     langchain_patcher.undo_patch()
     llamaindex_patcher.undo_patch()
     get_autogen_patcher().undo_patch()

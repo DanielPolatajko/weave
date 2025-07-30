@@ -88,6 +88,7 @@ trace_server_shards = [f"trace{i}" for i in range(1, NUM_TRACE_SERVER_SHARDS + 1
         "trace",
         *trace_server_shards,
         "trace_no_server",
+        "inspect",
     ],
 )
 def tests(session, shard):
@@ -146,6 +147,7 @@ def tests(session, shard):
         "trace": ["trace/"],
         **{shard: ["trace/"] for shard in trace_server_shards},
         "trace_no_server": ["trace/"],
+        "inspect": ["integrations/inspect/"],
     }
 
     test_dirs = test_dirs_dict.get(shard, default_test_dirs)
