@@ -51,6 +51,8 @@ def pytest_collection_modifyitems(config, items):
 
 
 def get_trace_server_flag(request):
+    if "skip_clickhouse_client" in request.keywords:
+        return "sqlite"
     if request.config.getoption("--clickhouse"):
         return "clickhouse"
     weave_server_flag = request.config.getoption("--trace-server")

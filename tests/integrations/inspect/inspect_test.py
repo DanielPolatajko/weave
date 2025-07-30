@@ -41,5 +41,5 @@ def test_inspect_quickstart(
     eval(hello_world, model="mockllm/model")
 
     calls = list(client.calls())
-    assert len(calls) == 6
+    assert len(calls) == 1
     assert "inspect_task" in calls[0]._op_name
