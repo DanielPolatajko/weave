@@ -5,6 +5,7 @@ from inspect_ai.solver import generate
 from inspect_ai.scorer import exact
 from inspect_ai.dataset import Sample
 from weave.integrations.inspect import get_inspect_patcher
+from pathlib import Path
 
 @pytest.fixture(scope="function")
 def patch_inspect():
@@ -23,6 +24,7 @@ def patch_inspect():
 def test_inspect_quickstart(
     client: weave.trace.weave_client.WeaveClient,
     patch_inspect: None,
+    tmp_path: Path,
 ) -> None:
     @task
     def hello_world():
@@ -38,7 +40,7 @@ def test_inspect_quickstart(
             metadata={"test": "test"}
         )
 
-    eval(hello_world, model="mockllm/model")
+    eval(hello_world, model="mockllm/model", log_dir=str(tmp_path))
 
     calls = list(client.calls())
     assert len(calls) == 1
