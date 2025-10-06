@@ -416,6 +416,8 @@ def create_wrapper_sync(settings: OpSettings) -> Callable[[Callable], Callable]:
                     # Only set stream_options if it targets the OpenAI endpoints
                     if urlparse(base_url).hostname == "api.openai.com":
                         kwargs["stream_options"] = {"include_usage": True}
+                    elif urlparse(base_url).hostname == "openrouter.ai":
+                        settings.name = settings.name.replace("openai", "openrouter")
 
                 return fn(self, *args, **kwargs)
 
@@ -461,6 +463,9 @@ def create_wrapper_async(settings: OpSettings) -> Callable[[Callable], Callable]
                     # Only set stream_options if it targets the OpenAI endpoints
                     if urlparse(base_url).hostname == "api.openai.com":
                         kwargs["stream_options"] = {"include_usage": True}
+                    elif urlparse(base_url).hostname == "openrouter.ai":
+                        settings.name = settings.name.replace("openai", "openrouter")
+
 
                 return await fn(self, *args, **kwargs)
 
